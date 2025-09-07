@@ -1,12 +1,18 @@
 #include <Novice.h>
+#include "Player.h"
 
-const char kWindowTitle[] = "LE4D_03_カツラギ_ウトウ";
+const char kWindowTitle[] = "4062_境界の崩壊";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, 1280, 720);
+	const int screenW = 1280;
+	const int screenH = 720;
+
+	Novice::Initialize(kWindowTitle, screenW, screenH);
+
+	Player player;
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
@@ -24,7 +30,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓更新処理ここから
 		///
-
+		player.update(1.0f / 60.0f, screenW, screenH, keys);
 		///
 		/// ↑更新処理ここまで
 		///
@@ -32,6 +38,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+		player.draw();
 
 		///
 		/// ↑描画処理ここまで
