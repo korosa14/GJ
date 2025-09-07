@@ -3,7 +3,7 @@
 
 //マップの横幅と縦幅
 const int MAP_WIDTH = 40;
-const int MAP_HEIGHT = 1;
+const int MAP_HEIGHT = 20;
 const int TILE_SIZE = 64;
 
 class Map {
@@ -15,9 +15,6 @@ public:
 
 	//プレイヤーが落ち床にいるか判定
 	bool isPlayerOnFallingFloor(int px, int py, int pw, int ph)const;
-
-	//指定座標のマップ値を取得
-	int GetTile(int y, int x)const { return map_[y][x]; }
 
 private:
 	int map_[MAP_HEIGHT][MAP_WIDTH];//マップデータ
