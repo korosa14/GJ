@@ -7,8 +7,11 @@ const char kWindowTitle[] = "4062_境界の崩壊";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
+	int screenW = GetSystemMetrics(SM_CXSCREEN);
+	int screenH = GetSystemMetrics(SM_CYSCREEN);
 
-	Novice::Initialize(kWindowTitle, 1280, 720);
+	Novice::Initialize(kWindowTitle, screenW, screenH, true);
+
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
@@ -17,6 +20,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	Map map;
 	Player player;
 	GameOver gameOver;
+
+	int scene = 0;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -30,19 +35,39 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓更新処理ここから
 		///
-		if (!gameOver.IsActive()) {
-			player.update(keys);
-			map.update(keys, preKeys);
-
-			//ゲームオーバー判定
-			if (map.isPlayerOnFallingFloor(
-				player.getX(), player.getY(),
-				player.getW(), player.getH())) {
-					{
-						gameOver.trigger();
-					}
+		
+		switch (scene)
+		{
+		case 0:
+			if (Novice::CheckHitKey(DIK_P))
+			{
+				scene = 1;
 			}
+			break;
+		case 1:
+			if (!gameOver.IsActive()) {
+				player.update(keys);
+				map.update(keys, preKeys);
+
+				//ゲームオーバー判定
+				if (map.isPlayerOnFallingFloor(
+					player.getX(), player.getY(),
+					player.getW(), player.getH())) {
+						{
+							gameOver.trigger();
+							scene = 2;
+						}
+				}
+			}
+			break;
+		case 2:
+			if (Novice::CheckHitKey(DIK_P))
+			{
+				scene = 0;
+			}
+			break;
 		}
+		
 
 		///
 		/// ↑更新処理ここまで
@@ -51,9 +76,21 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓描画処理ここから
 		///
-		map.Draw();
-		player.draw();
-		gameOver.draw();
+		switch (scene)
+		{
+		case 0:
+
+			break;
+		case 1:
+			map.Draw();
+			player.draw();
+			break;
+		case 2:
+			gameOver.draw();
+			break;
+		}
+
+
 
 		///
 		/// ↑描画処理ここまで
