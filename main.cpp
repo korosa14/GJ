@@ -1,22 +1,22 @@
 #include <Novice.h>
 #include "Player.h"
+#include "Map.h"
+#include"GameOver.h"
 
 const char kWindowTitle[] = "4062_境界の崩壊";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
-	// ライブラリの初期化
-	const int screenW = 1280;
-	const int screenH = 720;
-
-	Novice::Initialize(kWindowTitle, screenW, screenH);
-
-	Player player;
+	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
 	char preKeys[256] = {0};
+
+	Map map;
+	Player player;
+	GameOver gameOver;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -30,7 +30,20 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓更新処理ここから
 		///
-		player.update(1.0f / 60.0f, screenW, screenH, keys);
+		if (!gameOver.IsActive()) {
+			player.update(keys);
+			map.update(keys, preKeys);
+
+			//ゲームオーバー判定
+			if (map.isPlayerOnFallingFloor(
+				player.getX(), player.getY(),
+				player.getW(), player.getH())) {
+					{
+						gameOver.trigger();
+					}
+			}
+		}
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -38,8 +51,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↓描画処理ここから
 		///
-
+		map.Draw();
 		player.draw();
+		gameOver.draw();
 
 		///
 		/// ↑描画処理ここまで
