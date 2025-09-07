@@ -1,4 +1,5 @@
 #include <Novice.h>
+#include <windows.h>
 #include "Player.h"
 #include "Map.h"
 #include"GameOver.h"
@@ -8,7 +9,11 @@ const char kWindowTitle[] = "4062_境界の崩壊";
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
-	Novice::Initialize(kWindowTitle, 1280, 720);
+	//モニター解像度を取得
+	int screenW = GetSystemMetrics(SM_CXSCREEN);
+	int screenH = GetSystemMetrics(SM_CYSCREEN);
+
+	Novice::Initialize(kWindowTitle, screenW, screenH, true);
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};

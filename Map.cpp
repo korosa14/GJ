@@ -5,7 +5,7 @@ Map::Map()
     // 初期マップ: 横40マスを1~6で順番に割り振る
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
-            map_[y][x] = 1;
+            map_[y][x] = (x % 6) + 1;
         }
     }
 }
@@ -47,8 +47,16 @@ void Map::Draw() {
 }
 
 unsigned int Map::GetFloorColor(int type) const {
-    (void)type; // 使わないことを明示して警告C4100を回避
-    return 0xFF0000FF; // 常に赤色
+    switch (type)
+    {
+    case 1: return 0xFF0000FF; // 赤
+    case 2: return 0x00FF00FF; // 緑
+    case 3: return 0x0000FFFF; // 青
+    case 4: return 0xFFFF00FF; // 黄
+    case 5: return 0xFF00FFFF; // マゼンタ
+    case 6: return 0x00FFFFFF; // シアン
+    default: return 0x000000FF; // 黒（エラー用）
+    }
 }
 
 bool Map::isPlayerOnFallingFloor(int px, int py, int pw, int ph) const {
