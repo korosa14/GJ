@@ -45,6 +45,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 				player.getW(), player.getH())) {
 					{
 						gameOver.trigger();
+						gameOver.draw();
 					}
 			}
 		}
@@ -58,7 +59,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		map.Draw();
 		player.draw();
-		gameOver.draw();
 
 		///
 		/// ↑描画処理ここまで

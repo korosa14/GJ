@@ -1,6 +1,7 @@
 #pragma once
 #include <Novice.h>
 
+
 //マップの横幅と縦幅
 const int MAP_WIDTH = 40;
 const int MAP_HEIGHT = 20;
