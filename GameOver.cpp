@@ -13,6 +13,5 @@ bool GameOver::IsActive()const {
 
 void GameOver::draw() const {
 	if (active_)return;
-		Novice::ScreenPrintf(600, 50, "GAME OVER");
-
+		
 }

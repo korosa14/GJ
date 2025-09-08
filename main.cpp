@@ -7,10 +7,12 @@ const char kWindowTitle[] = "4062_境界の崩壊";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
+	/*
 	int screenW = GetSystemMetrics(SM_CXSCREEN);
 	int screenH = GetSystemMetrics(SM_CYSCREEN);
+	*/
 
-	Novice::Initialize(kWindowTitle, screenW, screenH, true);
+	Novice::Initialize(kWindowTitle, 1280, 720);
 
 
 	// キー入力結果を受け取る箱
@@ -20,8 +22,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	Map map;
 	Player player;
 	GameOver gameOver;
-
+	
 	int scene = 0;
+
+	int title = Novice::LoadTexture("title.png");
+	int gameover = Novice::LoadTexture("gameover.png");
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -39,7 +44,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		switch (scene)
 		{
 		case 0:
-			if (Novice::CheckHitKey(DIK_P))
+			if (keys[DIK_P]&&preKeys[DIK_P]==0)
 			{
 				scene = 1;
 			}
@@ -61,7 +66,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			}
 			break;
 		case 2:
-			if (Novice::CheckHitKey(DIK_P))
+			if (keys[DIK_P] && preKeys[DIK_P] == 0)
 			{
 				scene = 0;
 			}
@@ -79,14 +84,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		switch (scene)
 		{
 		case 0:
-
+			Novice::DrawSprite(0, 0, title, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 		case 1:
 			map.Draw();
 			player.draw();
 			break;
 		case 2:
-			gameOver.draw();
+			Novice::DrawSprite(0, 0, gameover, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 		}
 
