@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <dinput.h>
 
 Player::Player()
 	: x_(320),y_(360),size_(64),speed_(8){ }
