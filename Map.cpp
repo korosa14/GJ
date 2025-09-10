@@ -87,7 +87,17 @@ void Map::Draw() {
     //残り時間を画面に表示
     char buffer[64];
     sprintf_s(buffer,sizeof(buffer), "TIME: %d", limitTime_ / 60);
-    Novice::ScreenPrintf(10, 10, buffer);
+
+    int screenWidth = 1280;//画面横幅
+    int textSize = 2;//倍率
+    
+    // 中央寄せのために文字列の長さを計算
+    int textWidth = (int)strlen(buffer) * 8 * textSize; // 1文字=8px基準
+    int posX = (screenWidth - textWidth) / 2;
+    int posY = 20; // 上から20pxの位置
+
+    Novice::DrawBox(posX - 10, posY - 5, textWidth + 20, 30 * textSize, 0.0f, 0x000000AA, kFillModeSolid); // 背景半透明
+    Novice::ScreenPrintf(posX, posY, buffer);
 
 }
 
